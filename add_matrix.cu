@@ -14,8 +14,8 @@ __global__ void matrixAdditionKernel(float* C, float* A, float* B, int width) {
     //check first
 	if (row < width && col < width) {
         //find index
-		int index = row * width + col;
-		C[index] = A[index] + B[index];
+	int index = row * width + col;
+	C[index] = A[index] + B[index];
 	}
 }
 
@@ -50,21 +50,21 @@ __global__ void matrixColAdditionKernel(float* C, float* A, float* B, int width)
 }
 
 __host__ void matrixAdditionHost(float* h_C, const float* h_A, const float* h_B, int width) {
-	int size = width * width * sizeof(float);
-	float* d_A, * d_B, * d_C;
+   int size = width * width * sizeof(float);
+   float* d_A, * d_B, * d_C;
 
-	//allocate memory for input and output matrices
-	cudaMalloc(&d_A, size);
-	cudaMalloc(&d_B, size);
-	cudaMalloc(&d_C, size);
+    //allocate memory for input and output matrices
+    cudaMalloc(&d_A, size);
+    cudaMalloc(&d_B, size);
+    cudaMalloc(&d_C, size);
 
-	//transfer input data to device (GPU)
-	cudaMemcpy(d_A, h_A, size, cudaMemcpyHostToDevice);
-	cudaMemcpy(d_B, h_B, size, cudaMemcpyHostToDevice);
+    //transfer input data to device (GPU)
+    cudaMemcpy(d_A, h_A, size, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_B, h_B, size, cudaMemcpyHostToDevice);
 
-	//set kernel launch config
-	dim3 threads(16, 16);
-	dim3 blocks((width + threads.x - 1) / threads.x, (width + threads.y - 1) / threads.y);
+    //set kernel launch config
+    dim3 threads(16, 16);
+    dim3 blocks((width + threads.x - 1) / threads.x, (width + threads.y - 1) / threads.y);
 
     // create cuda event handles
     cudaEvent_t start, stop;
@@ -77,8 +77,8 @@ __host__ void matrixAdditionHost(float* h_C, const float* h_A, const float* h_B,
     //start the timer
     cudaEventRecord(start, 0);
 
-	//launch kernels
-	matrixAdditionKernel <<<blocks, threads, 0, 0 >>> (d_C, d_A, d_B, width);
+    //launch kernels
+    matrixAdditionKernel <<<blocks, threads, 0, 0 >>> (d_C, d_A, d_B, width);
     matrixRowAdditionKernel << <blocks, threads, 0, 0 >> > (d_C, d_A, d_B, width);
     matrixColAdditionKernel << <blocks, threads, 0, 0 >> > (d_C, d_A, d_B, width);
 
@@ -91,17 +91,17 @@ __host__ void matrixAdditionHost(float* h_C, const float* h_A, const float* h_B,
     // print the GPU times
     printf("time spent executing by the GPU: %.2f ms\n", gpu_time);
 
-	//transfer calculated output data back to host (CPU)
-	cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost);
+    //transfer calculated output data back to host (CPU)
+    cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost);
 
     //release resources
     cudaEventDestroy(start);
     cudaEventDestroy(stop);
 
-	//free device memory
-	cudaFree(d_A);
-	cudaFree(d_B);
-	cudaFree(d_C);
+    //free device memory
+    cudaFree(d_A);
+    cudaFree(d_B);
+    cudaFree(d_C);
     cudaDeviceReset();
 }
 
