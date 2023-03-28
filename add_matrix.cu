@@ -120,7 +120,7 @@ void testMatrixAddition(float* h_C, const float* h_A, const float* h_B, int widt
     printf("Test PASSED\n");
 }
 
-int main() {
+int main(int argc, char* argv[]) {
     int width = 125; //try with different width ex. 500 or 1000
     int size = width * width * sizeof(float);
     float* h_A, * h_B, * h_C;
