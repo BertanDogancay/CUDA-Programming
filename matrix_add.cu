@@ -13,9 +13,9 @@ __global__ void matrixAdditionKernel(float* C, float* A, float* B, int width) {
 
     //check first
 	if (row < width && col < width) {
-        //find index
-	int index = row * width + col;
-	C[index] = A[index] + B[index];
+	    //find index
+	    int index = row * width + col;
+	    C[index] = A[index] + B[index];
 	}
 }
 
