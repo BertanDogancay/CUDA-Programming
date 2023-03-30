@@ -175,7 +175,7 @@ int main(int argc, char* argv[]) {
 	initMatrixComputation(1000);
 	initMatrixComputation(2000);
 	#undef TILE_WIDTH
-    #define TILE_WIDTH 5
+    	#define TILE_WIDTH 5
 	printf("======================== TILE_WIDTH: %d ===============================\n\n", TILE_WIDTH);
 	initMatrixComputation(125);
 	initMatrixComputation(250);
