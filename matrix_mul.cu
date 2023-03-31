@@ -117,11 +117,11 @@ __host__ void matrixMulHost(float* h_M, float* h_N, float* h_P, int width) {
 	cudaDeviceReset();
 }
 
-void initializeMats(int width) {
+void initMatrixComputation(int width) {
 	int size = width * width * sizeof(float);
 	float* h_M, * h_N, * h_P;
 
-	//allocate Host (CPU) memory
+	//allocate host (CPU) memory
 	h_M = (float*)malloc(size);
 	h_N = (float*)malloc(size);
 	h_P = (float*)malloc(size);
@@ -137,17 +137,17 @@ void initializeMats(int width) {
 
 	matrixMulHost(h_M, h_N, h_P, width);
 
-	//free Host (CPU) memory
+	//free host (CPU) memory
 	free(h_M);
 	free(h_N);
 	free(h_P);
 }
  
 int main(int argc, char* argv[]) {
-	initializeMats(125);
-	initializeMats(250);
-	initializeMats(500);
-	initializeMats(1000);
-	initializeMats(2000);
+	initMatrixComputation(125);
+	initMatrixComputation(250);
+	initMatrixComputation(500);
+	initMatrixComputation(1000);
+	initMatrixComputation(2000);
 	return 0;
 }
