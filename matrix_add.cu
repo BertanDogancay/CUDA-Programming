@@ -14,8 +14,8 @@ __global__ void matrixAdditionKernel(float* C, float* A, float* B, int width) {
     //check first
 	if (row < width && col < width) {
         //find index
-		int index = row * width + col;
-		C[index] = A[index] + B[index];
+	int index = row * width + col;
+	C[index] = A[index] + B[index];
 	}
 }
 
@@ -79,7 +79,7 @@ __host__ void matrixAdditionHost(float* h_C, const float* h_A, const float* h_B,
     //start the timer
     cudaEventRecord(start, 0);
     //launch kernel for design 1
-	matrixAdditionKernel <<<blocks, threads, 0, 0 >>> (d_C, d_A, d_B, width);
+    matrixAdditionKernel <<<blocks, threads, 0, 0 >>> (d_C, d_A, d_B, width);
     //stop timer
     cudaEventRecord(stop, 0);
     cudaEventSynchronize(stop);
@@ -103,13 +103,13 @@ __host__ void matrixAdditionHost(float* h_C, const float* h_A, const float* h_B,
     cudaEventSynchronize(stop);
     cudaEventElapsedTime(&gpu_time_3, start, stop);
 
-	//transfer calculated output data back to host (CPU)
-	cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost);
+    //transfer calculated output data back to host (CPU)
+    cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost);
 
-	//free device memory
-	cudaFree(d_A);
-	cudaFree(d_B);
-	cudaFree(d_C);
+    //free device memory
+    cudaFree(d_A);
+    cudaFree(d_B);
+    cudaFree(d_C);
 
     cudaDeviceSynchronize();
     float cpu_time = 0.0f;
