@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TOLERANCE 0.0001
+#define TOLERANCE 0.00010
 
 //add two matrices (two-dimensional) output --> matrix element
 __global__ void matrixAdditionKernel(float* C, float* A, float* B, int width) {
